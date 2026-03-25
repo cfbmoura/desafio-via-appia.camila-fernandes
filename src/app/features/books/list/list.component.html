@@ -1,0 +1,143 @@
+ <section class="books-page">
+  <header class="books-header">
+    <div>
+      <p class="header-badge">Painel de livros</p>
+      <h2 class="titulo-pagina">Biblioteca</h2>
+      <p class="header-subtitle">Pesquise, cadastre e gerencie os livros em um lugar mais organizado.</p>
+    </div>
+  </header>
+
+  <section class="toolbar-card">
+    <div class="toolbar-copy">
+      <h3 class="toolbar-title">Buscar livros</h3>
+      <p class="toolbar-text">Filtre por titulo, por ano, ou combine os dois para encontrar mais rapido o que voce precisa.</p>
+    </div>
+
+    <div class="toolbar-actions">
+      <input
+        type="text"
+        placeholder="Digite o titulo"
+        [(ngModel)]="searchTitle"
+      >
+
+      <input
+        type="number"
+        placeholder="Digite o ano"
+        [(ngModel)]="searchYear"
+        inputmode="numeric"
+        min="0"
+        step="1"
+      >
+
+      <button (click)="searchBooks()">Buscar</button>
+      <button class="button-secondary" (click)="clearSearch()">Limpar</button>
+      <button class="button-accent" (click)="toggleForm()">
+        Cadastrar livro
+      </button>
+    </div>
+  </section>
+
+  <section class="page-feedback" *ngIf="errorMessage || successMessage">
+    <p class="feedback error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <p class="feedback success" *ngIf="successMessage">{{ successMessage }}</p>
+  </section>
+
+  <section class="books-list-section">
+    <div class="list-header">
+      <h3>Livros cadastrados</h3>
+      <p>{{ books.length }} resultado(s)</p>
+    </div>
+
+    <div class="books-grid" *ngIf="books.length > 0; else semLivros">
+      <article class="book-card" *ngFor="let book of books">
+        <div class="book-card-header">
+          <p class="book-label">Livro</p>
+          <h4>{{ book.title }}</h4>
+        </div>
+
+        <div class="book-meta">
+          <p><strong>Genero:</strong> {{ book.gender }}</p>
+          <p><strong>Ano:</strong> {{ book.year }}</p>
+          <p><strong>Autor:</strong> {{ getAuthorLabel(book) }}</p>
+        </div>
+
+        <div class="book-actions">
+          <button (click)="editBook(book)">Editar</button>
+          <button class="button-secondary danger" (click)="deleteBook(book.id)">Excluir</button>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #semLivros>
+      <div class="empty-state">
+        <h4>Nenhum livro encontrado</h4>
+        <p>Tente limpar a busca ou cadastrar um novo livro para preencher a lista.</p>
+      </div>
+    </ng-template>
+  </section>
+</section>
+
+<div class="modal-overlay" *ngIf="showForm" (click)="closeForm()">
+  <section class="modal-window" (click)="$event.stopPropagation()">
+    <div class="modal-bar">
+      <div class="modal-bar-dot"></div>
+      <div class="modal-bar-dot"></div>
+      <div class="modal-bar-dot"></div>
+    </div>
+
+    <div class="modal-header">
+      <div>
+        <p class="modal-kicker">{{ editingBookId ? 'Edicao' : 'Novo cadastro' }}</p>
+        <h3>{{ editingBookId ? 'Editar livro' : 'Cadastrar livro' }}</h3>
+        <p>{{ editingBookId ? 'Atualize os dados do livro selecionado.' : 'Preencha os campos abaixo para adicionar um novo livro.' }}</p>
+      </div>
+    </div>
+
+    <div class="input-grid">
+      <input
+        type="text"
+        placeholder="Titulo"
+        [(ngModel)]="title"
+      >
+
+      <input
+        type="text"
+        placeholder="Genero"
+        [(ngModel)]="gender"
+      >
+
+      <input
+        type="number"
+        placeholder="Ano"
+        [(ngModel)]="year"
+        inputmode="numeric"
+        min="0"
+        step="1"
+      >
+
+      <select
+        [(ngModel)]="authorId"
+        [disabled]="!!editingBookId"
+      >
+        <option value="">Selecione um autor</option>
+        <option *ngFor="let author of authors" [value]="author.id">
+          {{ author.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="feedback-row" *ngIf="errorMessage || successMessage">
+      <p class="feedback error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="feedback success" *ngIf="successMessage">{{ successMessage }}</p>
+      <p class="feedback info" *ngIf="editInfoMessage">{{ editInfoMessage }}</p>
+    </div>
+
+    <div class="form-actions">
+      <button *ngIf="!editingBookId" (click)="saveBook()">Salvar livro</button>
+      <button *ngIf="editingBookId" (click)="updateBook()">Atualizar livro</button>
+      <button class="button-secondary" (click)="closeForm()">
+        {{ editingBookId ? 'Cancelar edicao' : 'Cancelar' }}
+      </button>
+    </div>
+  </section>
+</div> ⁠

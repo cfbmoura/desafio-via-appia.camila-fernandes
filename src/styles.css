@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  margin: 0;
+
+  --font-um: 'Josefin Sans', sans-serif;
+  --font-dois: 'Open Sans', sans-serif;
+  --font-tres: 'Montserrat', sans-serif;
+  --font-quatro: 'Playfair Display', serif;
+  --font-cinco: 'Quicksand', sans-serif;
+
+  --cor-escura-um: #922B00;
+  --cor-escura-dois: #020122;
+  --cor-clara-um: #EEE2DF;
+  --cor-clara-dois: #EED7C5;
+  --cor-clara-tres: #C89F9C;
+
+
+  background-image: url("../src/app/assets/fundolivros3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+}
+

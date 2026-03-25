@@ -1,0 +1,52 @@
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-tabs">
+      <button
+        type="button"
+        class="tab-button"
+        [class.active]="mode === 'login'"
+        (click)="setMode('login')"
+      >
+        Entrar
+      </button>
+
+      <button
+        type="button"
+        class="tab-button"
+        [class.active]="mode === 'register'"
+        (click)="setMode('register')"
+      >
+        Cadastrar
+      </button>
+    </div>
+
+    <h2 class="login-titulo">{{ mode === 'login' ? 'Login' : 'Cadastro' }}</h2>
+    <p class="login-subtitulo">
+      {{ mode === 'login' ? 'Entre para acessar a biblioteca.' : 'Crie um usuario para acessar o sistema.' }}
+    </p>
+
+    <div class="login-box">
+      <input
+        class="login-usuario"
+        type="text"
+        placeholder="Login"
+        [(ngModel)]="loginValue"
+      />
+
+      <input
+        class="login-senha"
+        type="password"
+        placeholder="Senha"
+        [(ngModel)]="passwordValue"
+      />
+    </div>
+
+    <div class="login-feedback" *ngIf="errorMessage || successMessage">
+      <p class="feedback error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="feedback success" *ngIf="successMessage">{{ successMessage }}</p>
+    </div>
+
+    <button *ngIf="mode === 'login'" (click)="login()" class="botao-login">Entrar</button>
+    <button *ngIf="mode === 'register'" (click)="register()" class="botao-login">Cadastrar</button>
+  </div>
+</div>
